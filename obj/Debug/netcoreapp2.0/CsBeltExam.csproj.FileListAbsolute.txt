@@ -1,0 +1,11 @@
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\bin\Debug\netcoreapp2.0\CsBeltExam.deps.json
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\bin\Debug\netcoreapp2.0\CsBeltExam.runtimeconfig.json
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\bin\Debug\netcoreapp2.0\CsBeltExam.runtimeconfig.dev.json
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\bin\Debug\netcoreapp2.0\CsBeltExam.dll
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\bin\Debug\netcoreapp2.0\CsBeltExam.pdb
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.csprojResolveAssemblyReference.cache
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.csproj.CoreCompileInputs.cache
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.AssemblyInfoInputs.cache
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.AssemblyInfo.cs
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.dll
+C:\Users\matth\Desktop\Coding Dojo\c#_stack\CsBeltExam\obj\Debug\netcoreapp2.0\CsBeltExam.pdb
