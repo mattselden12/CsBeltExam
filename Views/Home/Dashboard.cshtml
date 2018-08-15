@@ -1,3 +1,63 @@
-﻿<div id="dashboard">
-    Dashboard
+﻿<!-- using Microsoft.AspNetCore.Http -->
+<!-- model List<Wedding> -->
+
+<div id="dashboard">
+    <div class="topsection">
+        <h1>Welcome to the Wedding Planner</h1>
+        <h3><a href="~/logout">Log Out</a></h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Wedding</th>
+                <th scope="col">Date</th>
+                <th scope="col">Guest</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- foreach()
+                {-->
+                <tr>
+                    <td><a href="~/RENAME"></a></td>
+                    <td>String.Format("{0: MMM d, yyyy }", DatetimeObject)</td>
+                    <td>wedding.Attenders.Count</td>
+                        <!-- string Blean = "false";
+                        foreach(var attender in wedding.Attenders){
+                            if(attender.UserId == Context.Session.GetInt32("UserId"))
+                            {
+                                Blean = "true";
+                            }
+                        }
+                        if(wedding.UserId == Context.Session.GetInt32("UserId"))
+                        { -->
+                            <td>
+                                <form asp-action="RENAME" asp-controller="Home" method="post">
+                                        <input type="hidden" name="RENAME" value="RENAME">
+                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
+                                </form>
+                            </td>
+                        <!-- }
+                        else if(Blean == "true"){
+                            <td>
+                                <form asp-action="RENAME" asp-controller="Home" method="post">
+                                        <input type="hidden" name="RENAME" value="RENAME">
+                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
+                                </form>
+                            </td>
+                        }
+                        else{
+                            <td>
+                                <form asp-action="RENAME" asp-controller="Home" method="post">
+                                        <input type="hidden" name="RENAME" value="RENAME">
+                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
+                                </form>
+                            </td>
+                        }
+                    } -->
+                </tr>
+            <!-- } -->
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="~/RENAME">New Wedding</a>
 </div>

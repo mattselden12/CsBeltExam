@@ -1,0 +1,19 @@
+<!-- model List<User> -->
+
+<div id="RENAME_ME">
+    <div class="topsection">
+        <h1>ViewBag.WedderOne and ViewBag.WedderTwo's Wedding</h1>
+        <h3><a href="~/logout">Log Out</a></h3>
+        <h3><a href="~/dashboard">Dashboard</a></h3>
+    </div>
+    <h2>Date: ViewBag.Date</h2>
+    <div class="side infoside">
+        <h2>Guests:</h2>
+        <div class="guests">
+            foreach(var guest in Model)
+            {
+                <h4>guest.FirstName guest.LastName</h4>
+            }
+        </div>
+    </div>
+</div>
