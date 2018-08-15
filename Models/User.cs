@@ -6,35 +6,37 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CsBeltExam.Models
 {
-    // public class User
-    // {
-    //     public int UserId {get;set;}
+    public class User
+    {
+        public int UserId {get;set;}
 
-    //     public string FirstName {get;set;}
+        public string FirstName {get;set;}
 
-    //     public string LastName {get;set;}
+        public string LastName {get;set;}
 
-    //     public string Email {get;set;}
+        public string Username {get;set;}
 
-    //     public string Password {get;set;}
+        public string Password {get;set;}
 
+        public Double Balance {get;set;}
 
-    //     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    //     public DateTime CreatedAt {get;set;}
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedAt {get;set;}
         
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime UpdatedAt {get;set;}
 
-    //     [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-    //     public DateTime UpdatedAt {get;set;}
+        [InverseProperty("Creator")]
+        public List<Auction> CreatedAuctions {get;set;}
 
-    //     public List<Wedding> CreatedWeddings {get;set;}
-        
-    //     public List<WeddingAttendance> Attending {get;set;}
+        [InverseProperty("TopBidder")]
+        public List<Auction> TopBidderOn {get;set;}
 
-    //     public User()
-    //     {
-    //         Attending = new List<WeddingAttendance>();
-    //         CreatedWeddings = new List<Wedding>();
-    //     }
+        public User()
+        {
+            CreatedAuctions = new List<Auction>();
+            TopBidderOn = new List<Auction>();
+        }
 
-    // }
+    }
 }

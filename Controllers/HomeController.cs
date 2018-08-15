@@ -45,78 +45,79 @@ namespace CsBeltExam.Controllers
             return View("ObjectInfo");
         }
 
-        // [HttpPost]
-        // [Route("registerprocess")]
-        // public IActionResult RegisterProcess(UserValidator newuser)
-        // {
-        //     if(ModelState.IsValid)
-        //     {
-        //         User DBUser = _context.users.SingleOrDefault(u=>u.Email == newuser.Email);
-        //         if(DBUser != null)
-        //         {
-        //             ViewBag.Error = "Email already exists in Database";
-        //             return View("Login");
-        //         }
-        //         PasswordHasher<UserValidator> Hasher = new PasswordHasher<UserValidator>();
-        //         newuser.Password = Hasher.HashPassword(newuser, newuser.Password);
-        //         User this_user = new User
-        //         {
-        //             FirstName = newuser.FirstName,
-        //             LastName = newuser.LastName,
-        //             Email = newuser.Email,
-        //             Password = newuser.Password,
-        //         };
-        //         _context.Add(this_user);
-        //         _context.SaveChanges();
-        //         HttpContext.Session.SetInt32("UserId", this_user.UserId);
-        //         HttpContext.Session.SetString("UserFirstName", this_user.FirstName);
-        //         return RedirectToAction("Dashboard");
-        //     }
-        //     else{
-        //         return View("Login");
-        //     }
-        // }
+        [HttpPost]
+        [Route("registerprocess")]
+        public IActionResult RegisterProcess(UserValidator newuser)
+        {
+            if(ModelState.IsValid)
+            {
+                User DBUser = _context.users.SingleOrDefault(u=>u.Username == newuser.Username);
+                if(DBUser != null)
+                {
+                    ViewBag.Error = "Username already exists in Database";
+                    return View("Login");
+                }
+                PasswordHasher<UserValidator> Hasher = new PasswordHasher<UserValidator>();
+                newuser.Password = Hasher.HashPassword(newuser, newuser.Password);
+                User this_user = new User
+                {
+                    FirstName = newuser.FirstName,
+                    LastName = newuser.LastName,
+                    Username = newuser.Username,
+                    Password = newuser.Password,
+                    Balance = 1000.00
+                };
+                _context.Add(this_user);
+                _context.SaveChanges();
+                HttpContext.Session.SetInt32("UserId", this_user.UserId);
+                HttpContext.Session.SetString("UserFirstName", this_user.FirstName);
+                return RedirectToAction("Dashboard");
+            }
+            else{
+                return View("Login");
+            }
+        }
 
-        // [HttpPost]
-        // [Route("loginprocess")]
-        // public IActionResult LoginProcess(string LEmail, string LPassword)
-        // {
-        //     User myUser = _context.users.SingleOrDefault(u => u.Email == LEmail);
-        //     if(myUser != null && LPassword != null)
-        //     {
-        //         var Hasher = new PasswordHasher<User>();
-        //         if(0 != Hasher.VerifyHashedPassword(myUser, myUser.Password, LPassword))
-        //         {
-        //             HttpContext.Session.SetInt32("UserId", myUser.UserId);
-        //             HttpContext.Session.SetString("UserFirstName", myUser.FirstName);
-        //             return RedirectToAction("Dashboard");
-        //         }
-        //         else
-        //         {
-        //             ViewBag.BadPass = "Password Incorrect.";
-        //             return View("Login");
-        //         }
-        //     }
-        //     else{
-        //         if(myUser == null)
-        //         {
-        //             ViewBag.NoUser = "Could not locate user with that email.";
-        //         }
-        //         if(LPassword == null)
-        //         {
-        //             ViewBag.PassNull = "You must enter a password.";
-        //         }
-        //         return View("Login");
-        //     }
-        // }
+        [HttpPost]
+        [Route("loginprocess")]
+        public IActionResult LoginProcess(string LUsername, string LPassword)
+        {
+            User myUser = _context.users.SingleOrDefault(u => u.Username == LUsername);
+            if(myUser != null && LPassword != null)
+            {
+                var Hasher = new PasswordHasher<User>();
+                if(0 != Hasher.VerifyHashedPassword(myUser, myUser.Password, LPassword))
+                {
+                    HttpContext.Session.SetInt32("UserId", myUser.UserId);
+                    HttpContext.Session.SetString("UserFirstName", myUser.FirstName);
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    ViewBag.BadPass = "Password Incorrect.";
+                    return View("Login");
+                }
+            }
+            else{
+                if(myUser == null)
+                {
+                    ViewBag.NoUser = "Could not locate user with that email.";
+                }
+                if(LPassword == null)
+                {
+                    ViewBag.PassNull = "You must enter a password.";
+                }
+                return View("Login");
+            }
+        }
 
-        // [HttpGet]
-        // [Route("logout")]
-        // public IActionResult Logout()
-        // {
-        //     HttpContext.Session.Clear();
-        //     return RedirectToAction("Login");
-        // }
+        [HttpGet]
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
 
 
 
