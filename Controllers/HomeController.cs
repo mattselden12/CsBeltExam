@@ -24,28 +24,66 @@ namespace CsBeltExam.Controllers
         [HttpGet("")]
         public IActionResult Login()
         {
+            ViewBag.NotLoggedIn = TempData["NotLoggedIn"];
             return View("Login");
         }
 
         [HttpGet("dashboard")]
         public IActionResult Dashboard()
         {
-            return View("Dashboard");
+            if(HttpContext.Session.GetInt32("UserId") != null)
+            {
+                List<Auction> AllAuctions = _context.auctions.Include(a => a.Creator).Include(a => a.TopBidder).OrderBy(a => a.EndDate).ToList();
+                foreach(var auct in AllAuctions){
+                    if(auct.EndDate < DateTime.Today)
+                    {
+                        auct.Creator.Balance += auct.TopBid;
+                        auct.TopBidder.Balance -= auct.TopBid;
+                        _context.auctions.Remove(auct);
+                    }
+                }
+                _context.SaveChanges();
+                User this_user = _context.users.SingleOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+                ViewBag.CurrentBalance = this_user.Balance;
+                ViewBag.CurFirstName = this_user.FirstName;
+                return View("Dashboard", AllAuctions);
+            }
+            else
+            {
+                TempData["NotLoggedIn"] = "You must be logged in to view Auctions";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpGet("addnew")]
         public IActionResult AddNew()
         {
-            return View("AddNew");
+            if(HttpContext.Session.GetInt32("UserId") != null)
+            {
+                return View("AddNew");
+            }
+            else
+            {
+                TempData["NotLoggedIn"] = "You must be logged in to view Auctions";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpGet("objectinfo/{auctionid}")]
         public IActionResult ObjectInfo(int auctionid)
         {
-            Auction this_auction = _context.auctions.Include(a => a.Creator).Include(a => a.TopBidder).SingleOrDefault(a => a.AuctionId == auctionid);
-            ViewBag.Balance = TempData["Balance"];
-            ViewBag.TopBid = TempData["TopBid"];
-            return View("ObjectInfo", this_auction);
+            if(HttpContext.Session.GetInt32("UserId") != null)
+            {
+                Auction this_auction = _context.auctions.Include(a => a.Creator).Include(a => a.TopBidder).SingleOrDefault(a => a.AuctionId == auctionid);
+                ViewBag.Balance = TempData["Balance"];
+                ViewBag.TopBid = TempData["TopBid"];
+                return View("ObjectInfo", this_auction);
+            }
+            else
+            {
+                TempData["NotLoggedIn"] = "You must be logged in to view Auctions";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -68,7 +106,8 @@ namespace CsBeltExam.Controllers
                     LastName = newuser.LastName,
                     Username = newuser.Username,
                     Password = newuser.Password,
-                    Balance = 1000.00
+                    Balance = 1000.00,
+                    Available = 1000.00
                 };
                 _context.Add(this_user);
                 _context.SaveChanges();
@@ -163,7 +202,7 @@ namespace CsBeltExam.Controllers
                 {
                     ModelState.AddModelError("EndDate", "End Date must be in the future.");
                 }
-                if(new_auction.TopBid < 0)
+                if(new_auction.TopBid <= 0)
                 {
                     ModelState.AddModelError("TopBid", "Starting bid must be greater than $0");
                 }
@@ -175,12 +214,12 @@ namespace CsBeltExam.Controllers
         public IActionResult PlaceBid(Double NewBid, int auctionid)
         {
             User this_user = _context.users.SingleOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
-            Auction this_auction = _context.auctions.SingleOrDefault(a => a.AuctionId == auctionid);
-            if(NewBid > this_user.Balance || NewBid <= this_auction.TopBid)
+            Auction this_auction = _context.auctions.Include(a => a.Creator).Include(a => a.TopBidder).SingleOrDefault(a => a.AuctionId == auctionid);
+            if(NewBid > this_user.Available || NewBid <= this_auction.TopBid)
             {
-                if(NewBid > this_user.Balance)
+                if(NewBid > this_user.Available)
                 {
-                    TempData["Balance"] = "You do not have enough money to place that bid.";
+                    TempData["Balance"] = "You do not have enough available money to place that bid.";
                 }
                 if(NewBid <= this_auction.TopBid)
                 {
@@ -189,12 +228,25 @@ namespace CsBeltExam.Controllers
                 return Redirect("~/objectinfo/"+this_auction.AuctionId);
             }
             else{
+                if(this_auction.TopBidder.UserId != this_auction.Creator.UserId)
+                {
+                    this_auction.TopBidder.Available += this_auction.TopBid;
+                }
                 this_auction.TopBid = NewBid;
                 this_auction.TopBidderId = this_user.UserId;
-                this_user.Balance -= NewBid;
+                this_user.Available -= NewBid;
                 _context.SaveChanges();
                 return Redirect("~/objectinfo/"+this_auction.AuctionId);
             }
+        }
+
+        [HttpPost("deleteauction")]
+        public IActionResult DeleteAuction(int auctionid)
+        {
+            Auction this_auction = _context.auctions.SingleOrDefault(a => a.AuctionId == auctionid);
+            _context.auctions.Remove(this_auction);
+            _context.SaveChanges();
+            return RedirectToAction("Dashboard");
         }
 
 

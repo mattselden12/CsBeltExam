@@ -34,3 +34,141 @@
     }
 }
 
+.col-sm-10{
+    width: 30%
+}
+
+.reg{
+    width: 60%;
+}
+
+.regside{
+    width: 40%;
+    display: inline-block;
+    margin-left: 2%;
+}
+
+.col-sm-2 {
+    width: 8.666667% !important;
+}
+
+.loginbutton{
+    margin-left: 5%;
+}
+
+.rights{
+    position: relative;
+    bottom: 15px;
+}
+
+.regbutton{
+    margin-left: 5%;
+    margin-top: 5%;
+}
+
+.topsection h1{
+    display: inline-block;
+    margin-right: 3%;
+}
+
+.topreg{
+    margin-bottom: 3%;
+}
+
+.topsection .topright{
+    float:right;
+    display: inline-block;
+    width: 350px;
+}
+.topsection h3{
+    display: inline-block;
+    margin-right: 15%;
+}
+
+a{
+    text-decoration: underline;
+}
+
+#dashboard table{
+    border: 2px solid black;
+}
+#dashboard td{
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+#dashboard td button{
+    background:none!important;
+    color: #337AB7;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+
+#dashboard th{
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+#dashboard thead{
+    background-color: #E9ECEF;
+}
+
+#dashboard .newa{
+    text-decoration: none;
+    margin-right: 73%;
+}
+
+#dashboard h5{
+    display: inline-block;
+}
+
+#addnew textarea {
+    display: block;
+    width: 455px;
+    height: 165px;
+}
+
+#addnew button{
+    display: block;
+    margin-left: 2%;
+}
+
+.rightside{
+    position:relative;
+    top: 30px;
+    left: 30px;
+}
+
+#addnew .bid{
+    width: 50%;
+}
+
+#addnew .enddate{
+    width: 35%;
+}
+
+.infoside{
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    margin-top: 2%;
+}
+
+.infoside h3{
+    margin-bottom: 8%;
+}
+
+.topbid{
+    margin-left: 12%;
+}
+
+#info button{
+    display: block;
+    margin-top: 3%;
+    margin-left: 24%;
+}
+
+.biddername{
+    margin-bottom: 14% !important;
+}

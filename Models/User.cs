@@ -20,6 +20,8 @@ namespace CsBeltExam.Models
 
         public Double Balance {get;set;}
 
+        public Double Available {get;set;}
+
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt {get;set;}
         

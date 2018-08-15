@@ -1,11 +1,13 @@
-﻿<!-- using Microsoft.AspNetCore.Http -->
-<!-- model List<Wedding> -->
+﻿@using Microsoft.AspNetCore.Http
+@model List<Auction>
 
 <div id="dashboard">
-    <div class="topsection">
+    <div class="topsection topreg">
         <h1>Current Auctions</h1>
-        <h3>Hi FirstName!</h3>
-        <h3><a href="~/logout">Log Out</a></h3>
+        <div class="topright">
+            <h3>Hi @ViewBag.CurFirstName!</h3>
+            <h3><a href="~/logout">Log Out</a></h3>
+        </div>
     </div>
     <table class="table table-striped">
         <thead>
@@ -18,50 +20,29 @@
             </tr>
         </thead>
         <tbody>
-            <!-- foreach()
-                {-->
+            @foreach(var auction in @Model)
+                {
                 <tr>
-                    <td><a href="~/objectinfo/1">ProductName</a></td>
-                    <td>Creator</td>
-                    <td>TopBid</td>
-                    <td>Time Remaining</td>
-                        <!-- string Blean = "false";
-                        foreach(var attender in wedding.Attenders){
-                            if(attender.UserId == Context.Session.GetInt32("UserId"))
-                            {
-                                Blean = "true";
-                            }
-                        }
-                        if(wedding.UserId == Context.Session.GetInt32("UserId"))
-                        { -->
-                            <td>
-                                <form asp-action="RENAME" asp-controller="Home" method="post">
-                                        <input type="hidden" name="RENAME" value="RENAME">
-                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
-                                </form>
-                            </td>
-                        <!-- }
-                        else if(Blean == "true"){
-                            <td>
-                                <form asp-action="RENAME" asp-controller="Home" method="post">
-                                        <input type="hidden" name="RENAME" value="RENAME">
-                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
-                                </form>
-                            </td>
-                        }
-                        else{
-                            <td>
-                                <form asp-action="RENAME" asp-controller="Home" method="post">
-                                        <input type="hidden" name="RENAME" value="RENAME">
-                                        <button type="submit" class="btn btn-outline-primary" style="outline:none;">RENAME</button>
-                                </form>
-                            </td>
-                        }
-                    } -->
+                    <td><a href="~/objectinfo/@auction.AuctionId">@auction.ProductName</a></td>
+                    <td>@auction.Creator.FirstName</td>
+                    <td>$@auction.TopBid</td>
+                    <td>@auction.EndDate.Subtract(DateTime.Now).Days days</td>
+                    @if(auction.CreatorId == Context.Session.GetInt32("UserId"))
+                    {
+                        <td>
+                            <form asp-action="DeleteAuction" asp-controller="Home" method="post">
+                                    <input type="hidden" name="auctionid" value="@auction.AuctionId">
+                                    <button type="submit" class="btn btn-outline-primary" style="outline:none;">Delete</button>
+                            </form>
+                        </td>
+                    }
+                    else{
+                        <td></td>
+                    }
                 </tr>
-            <!-- } -->
+            }
         </tbody>
     </table>
-    <a class="btn btn-primary" href="~/addnew">New Auction</a>
-    <h5>Your Current Wallet: $567.24</h5>
+    <a class="btn btn-primary newa" href="~/addnew">New Auction</a>
+    <h5>Your Current Wallet: $@ViewBag.CurrentBalance</h5>
 </div>
