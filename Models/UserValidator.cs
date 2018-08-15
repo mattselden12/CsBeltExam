@@ -15,8 +15,8 @@ namespace CsBeltExam.Models
         public string LastName {get;set;}
 
         [Required]
-        [MinLength(3)]
-        [MaxLength(20)]
+        [MinLength(4)]
+        [MaxLength(19)]
         public string Username {get;set;}
 
         [Required]

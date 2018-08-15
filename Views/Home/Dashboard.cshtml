@@ -3,25 +3,28 @@
 
 <div id="dashboard">
     <div class="topsection">
-        <h1>Welcome to the Wedding Planner</h1>
+        <h1>Current Auctions</h1>
+        <h3>Hi FirstName!</h3>
         <h3><a href="~/logout">Log Out</a></h3>
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Wedding</th>
-                <th scope="col">Date</th>
-                <th scope="col">Guest</th>
-                <th scope="col">Action</th>
+                <th scope="col">Product</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Top Bid</th>
+                <th scope="col">Time Remaining</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             <!-- foreach()
                 {-->
                 <tr>
-                    <td><a href="~/RENAME"></a></td>
-                    <td>String.Format("{0: MMM d, yyyy }", DatetimeObject)</td>
-                    <td>wedding.Attenders.Count</td>
+                    <td><a href="~/objectinfo/1">ProductName</a></td>
+                    <td>Creator</td>
+                    <td>TopBid</td>
+                    <td>Time Remaining</td>
                         <!-- string Blean = "false";
                         foreach(var attender in wedding.Attenders){
                             if(attender.UserId == Context.Session.GetInt32("UserId"))
@@ -59,5 +62,6 @@
             <!-- } -->
         </tbody>
     </table>
-    <a class="btn btn-primary" href="~/RENAME">New Wedding</a>
+    <a class="btn btn-primary" href="~/addnew">New Auction</a>
+    <h5>Your Current Wallet: $567.24</h5>
 </div>

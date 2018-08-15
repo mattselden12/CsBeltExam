@@ -1,19 +1,22 @@
-<!-- model List<User> -->
+@model Auction
 
-<div id="RENAME_ME">
+<div id="info">
     <div class="topsection">
-        <h1>ViewBag.WedderOne and ViewBag.WedderTwo's Wedding</h1>
-        <h3><a href="~/logout">Log Out</a></h3>
-        <h3><a href="~/dashboard">Dashboard</a></h3>
+        <h1>@Model.ProductName</h1>
+        <h3>Created by: @Model.Creator.FirstName</h3>
+        <h3><a href="~/dashboard">Home</a></h3>
+        <h3><a href="~/logout">Logout</a></h3>
     </div>
-    <h2>Date: ViewBag.Date</h2>
-    <div class="side infoside">
-        <h2>Guests:</h2>
-        <div class="guests">
-            foreach(var guest in Model)
-            {
-                <h4>guest.FirstName guest.LastName</h4>
-            }
-        </div>
-    </div>
+    <h3>Time Remaining: !!!2 days!!!</h3>
+    <p>@Model.Description</p>
+    <h3>Current Highest Big:</h3>
+    <h3>$@Model.TopBid</h3>
+    <h3>By @Model.TopBidder.FirstName @Model.TopBidder.LastName</h3>
+    <p style="color:red;">@ViewBag.Balance</p>
+    <p style="color:red;">@ViewBag.TopBid</p>
+    <form asp-action="PlaceBid" asp-controller="Home" asp-method="post">
+        <input type="text" placeholder="Your bid goes here..." name="NewBid">
+        <input type="hidden" name="auctionid" value="@Model.AuctionId">
+        <button type="submit" class="btn btn-primary">Bid!!</button>
+    </form>
 </div>

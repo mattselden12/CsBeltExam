@@ -10,10 +10,15 @@ namespace CsBeltExam.Models
     {
         public int AuctionId {get;set;}
 
+        [Required]
+        [MinLength(4)]
         public string ProductName {get;set;}
 
+        [Required]
+        [MinLength(11)]
         public string Description {get;set;}
 
+        [DataType(DataType.DateTime, ErrorMessage = "Invalid Datetime")]
         public DateTime EndDate {get;set;}
 
         public Double TopBid {get;set;}

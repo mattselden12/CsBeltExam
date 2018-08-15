@@ -39,10 +39,13 @@ namespace CsBeltExam.Controllers
             return View("AddNew");
         }
 
-        [HttpGet("objectinfo")]
-        public IActionResult ObjectInfo()
+        [HttpGet("objectinfo/{auctionid}")]
+        public IActionResult ObjectInfo(int auctionid)
         {
-            return View("ObjectInfo");
+            Auction this_auction = _context.auctions.Include(a => a.Creator).Include(a => a.TopBidder).SingleOrDefault(a => a.AuctionId == auctionid);
+            ViewBag.Balance = TempData["Balance"];
+            ViewBag.TopBid = TempData["TopBid"];
+            return View("ObjectInfo", this_auction);
         }
 
         [HttpPost]
@@ -119,28 +122,80 @@ namespace CsBeltExam.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpPost]
+        [Route("addauction")]
+        public IActionResult AddAuction(Auction new_auction)
+        {
+            if(ModelState.IsValid)
+            {
+                if(new_auction.EndDate < DateTime.Today || new_auction.TopBid < 0)
+                {
+                    if(new_auction.EndDate < DateTime.Today)
+                    {
+                        ModelState.AddModelError("EndDate", "End Date must be in the future.");
+                    }
+                    if(new_auction.TopBid < 0)
+                    {
+                        ModelState.AddModelError("TopBid", "Starting bid must be greater than $0");
+                    }
+                    return View("AddNew");
+                }
+                else
+                {
+                    Auction this_auction = new Auction
+                    {
+                        ProductName = new_auction.ProductName,
+                        Description = new_auction.Description,
+                        EndDate = new_auction.EndDate,
+                        TopBid = new_auction.TopBid,
+                        CreatorId = (int) HttpContext.Session.GetInt32("UserId"),
+                        TopBidderId = (int) HttpContext.Session.GetInt32("UserId")
 
+                    };
+                    _context.Add(this_auction);
+                    _context.SaveChanges();
+                    return Redirect("~/objectinfo/"+this_auction.AuctionId);
+                }
+            }
+            else
+            {
+                if(new_auction.EndDate < DateTime.Today)
+                {
+                    ModelState.AddModelError("EndDate", "End Date must be in the future.");
+                }
+                if(new_auction.TopBid < 0)
+                {
+                    ModelState.AddModelError("TopBid", "Starting bid must be greater than $0");
+                }
+                return View("AddNew");
+            }
+        }
 
-
-
-
-
-
-
-
-        // [HttpPost("addproduct")]
-        // public IActionResult AddProduct(Product this_product)
-        // {
-        //     Product new_product = new Product
-        //     {
-        //         Name = this_product.Name,
-        //         Description = this_product.Description,
-        //         Price = this_product.Price
-        //     };
-        //     _context.products.Add(new_product);
-        //     _context.SaveChanges();
-        //     return Redirect("~/products/"+new_product.ProductId);
-        // }
+        [HttpPost("placebid")]
+        public IActionResult PlaceBid(Double NewBid, int auctionid)
+        {
+            User this_user = _context.users.SingleOrDefault(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
+            Auction this_auction = _context.auctions.SingleOrDefault(a => a.AuctionId == auctionid);
+            if(NewBid > this_user.Balance || NewBid <= this_auction.TopBid)
+            {
+                if(NewBid > this_user.Balance)
+                {
+                    TempData["Balance"] = "You do not have enough money to place that bid.";
+                }
+                if(NewBid <= this_auction.TopBid)
+                {
+                    TempData["TopBid"] = "Your bid must be greater than the Current Highest Bid.";
+                }
+                return Redirect("~/objectinfo/"+this_auction.AuctionId);
+            }
+            else{
+                this_auction.TopBid = NewBid;
+                this_auction.TopBidderId = this_user.UserId;
+                this_user.Balance -= NewBid;
+                _context.SaveChanges();
+                return Redirect("~/objectinfo/"+this_auction.AuctionId);
+            }
+        }
 
 
 
